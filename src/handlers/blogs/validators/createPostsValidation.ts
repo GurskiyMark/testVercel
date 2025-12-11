@@ -1,0 +1,28 @@
+import { body } from 'express-validator';
+import { blogs } from '../../../db';
+
+export const createPostValidation = [
+  body('title')
+    .exists().withMessage('Поле "title" обязательно')
+    .isString().withMessage('Поле "title" должно быть строкой')
+    .isLength({ max: 30 }).withMessage('Максимальная длина "title" — 30 символов'),
+
+  body('shortDescription')
+    .exists().withMessage('Поле "shortDescription" обязательно')
+    .isString().withMessage('Поле "shortDescription" должно быть строкой')
+    .isLength({ max: 100 }).withMessage('Максимальная длина "shortDescription" — 100 символов'),
+
+  body('content')
+    .exists().withMessage('Поле "content" обязательно')
+    .isString().withMessage('Поле "content" должно быть строкой')
+    .isLength({ max: 1000 }).withMessage('Максимальная длина "content" — 1000 символов'),
+
+  body('blogId')
+    .exists().withMessage('Поле "blogId" обязательно')
+    .isString().withMessage('Поле "blogId" должно быть строкой')
+    .custom(value => {
+      const blogExists = blogs.find(b => b.id === value);
+      if (!blogExists) throw new Error('Блог с таким id не существует');
+      return true;
+    }),
+];

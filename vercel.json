@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "server_1/dist/index.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/blogs", "dest": "server_1/dist/index.js" },
+    { "src": "/blogs/(.*)", "dest": "server_1/dist/index.js" },
+    { "src": "/posts", "dest": "server_1/dist/index.js" },
+    { "src": "/posts/(.*)", "dest": "server_1/dist/index.js" },
+    { "src": "/testing/all-data", "dest": "server_1/dist/index.js" }
+  ]
+}
